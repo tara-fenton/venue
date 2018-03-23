@@ -1,0 +1,19 @@
+<% include ../partials/header %>
+<body>
+  <div class="content">
+    <div class="header">
+      <h2>Venue:</h2>
+      <a href='/signup'>Sign up</a>
+    </div>
+
+    <form action="/login" method="POST">
+      <input type="text" name="username" placeholder="username">
+      <input type="text" name="password" placeholder="password">
+      <input type="submit" value="submit">
+    </form>
+
+      <div class='message'><%= message %></div>
+
+    </div>
+</body>
+</html>
