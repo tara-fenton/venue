@@ -2,9 +2,10 @@
   "name": "project-2",
   "version": "1.0.0",
   "description": "Venue - CRUD and Spotify api",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.9.0",
