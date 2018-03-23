@@ -1,21 +1,12 @@
-// USER MODEL !!!
-const { db } = require("../database/index");
+// Import pg-promise and initialize the library with an empty object.
+const pgp = require("pg-promise")({});
 
-const User = {};
+// Prepare the connection URL from the format: 'postgres://username:password@host:port/database';
+const connectionURL = "postgres://localhost:5432/venue_app";
 
-// findAll
-// User.findAll = () => db.any("SELECT * FROM users ORDER BY id");
-User.findByUser = username =>
-  db.one("SELECT * FROM users WHERE name= $1", [username]);
+// Creating a new database connection with the provided URL.
+const db = pgp(connectionURL);
 
-// gonna have to check if the username was used already so that there is only one
-// user per username
-
-// create
-User.create = (data, hashPass) =>
-  db.one("INSERT INTO users (name, password) VALUES ($1, $2) RETURNING id", [
-    data.username,
-    hashPass
-  ]);
-
-module.exports = User;
+module.exports = {
+  db
+};
