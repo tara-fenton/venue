@@ -30,14 +30,14 @@ DROP TABLE playlists;
 
 CREATE TABLE playlists (
   id BIGSERIAL PRIMARY KEY,
-  song_id INTEGER
+  song_id INTEGER REFERENCES songs(id)
 );
 
 DROP TABLE djs;
 
 CREATE TABLE djs (
   id BIGSERIAL PRIMARY KEY,
-  user_id INTEGER,
-  venue_id INTEGER,
-  playlist_id INTEGER
+  user_id INTEGER REFERENCES users(id),
+  venue_id INTEGER REFERENCES venues(id),
+  playlist_id INTEGER REFERENCES playlists(id)
 );
