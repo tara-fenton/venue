@@ -28,6 +28,7 @@
     "method-override": "^2.3.10",
     "node-gyp": "^3.6.2",
     "nodemon": "^1.17.2",
-    "pg-promise": "^8.2.2"
+    "pg-promise": "^8.2.2",
+    "spotify-web-api-node": "^3.0.0"
   }
 }

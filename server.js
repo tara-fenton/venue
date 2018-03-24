@@ -12,7 +12,24 @@ const User = require("./models/User");
 const Venue = require("./models/Venue");
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
+require("es6-promise").polyfill();
+require("isomorphic-fetch");
 
+// styles sheets
+app.use("/styles", express.static("styles"));
+app.use("/images", express.static("images"));
+
+var SpotifyWebApi = require("spotify-web-api-node");
+
+// credentials are optional
+var spotifyApi = new SpotifyWebApi({
+  clientId: "cb37096286df46e7a1882448247c71ff",
+  clientSecret: "1f0febc6b6534cd2b33e07b4119f4bd9",
+  redirectUri: "http://localhost:8888/callback"
+});
+spotifyApi.setAccessToken(
+  "BQBBOzAkZYjdlI_QkKU26PMEXg6BSO3xFZME-PMqzQR6YaDa3lEBjAYY-pjL08g4klrDHGYyDYUO3XeR6nyTronToz__xiYrQxjRQ0nMdwWLXTQ4AHB6oORVU8azowb8FtzhZuWkrCCZZavE_KFe2UXJSB25RtXZrQ&refresh_token=AQDoeEi6hwfs5IfTiluUpe5vmXwqLi5mEv2CjetMCtt10Qex2gtKHuimU67eL51o4DohNdqOV6SB3jY3EoZaYJGZsd8poK-Xhmm11lRg714yZRomIYnuXGrj1qQtF-7nFbw"
+);
 // Set up the session middleware which will let use `request.session`
 app.use(
   session({
@@ -111,12 +128,26 @@ app.get("/venue-list", (request, response) => {
     //response.json(venues);
   });
 });
+// https://api.spotify.com/v1/users/tarafenton/playlists
 ///////////////////////////////////////////////////// VENUE PAGE ////////
+
 // Render a venue page for the user to play
 app.get("/venue/", (request, response) => {
   const venueName = request.query.venue;
-  response.render("venue", { venue: venueName });
+  const sendData = { venue: venueName };
+  // Get Elvis' albums
+  spotifyApi.getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE").then(
+    function(data) {
+      sendData.data = data.body;
+      console.log("Artist albums", data.body);
+      response.render("venue", { sendData: sendData });
+    },
+    function(err) {
+      console.error(err);
+    }
+  );
 });
+
 ////////////////////////////////////////////////////// LISTEN TO PORT ////
 // listen for port
 app.listen(PORT, () => {
