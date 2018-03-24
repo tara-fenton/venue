@@ -27,12 +27,13 @@ Log into Venue, Log into Spotify, One venue
 
 Starting with very basic graphics I will first create the basic functionality and then expand.
 
-*   Create a user database and login to venue
-*   Landing login page for venue
-*   Use the spotify api to log users into their spotify account
-*   create a venue listing page
-*   create a venue page
-*   exit button to go back to the venue listing page
+*   --Create a user database and login to venue
+*   --Landing login page for venue
+*   Error handling for login, signup
+*   // wait - Use the spotify api to log users into their spotify account
+*   --create a venue listing page
+*   --create a venue page
+*   --exit button to go back to the venue listing page
 *   playlist display
 *   search functionality
 

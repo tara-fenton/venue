@@ -103,7 +103,7 @@ app.post("/signup", urlencodedParser, (request, response) => {
       response.send(error);
     });
 });
-/////////////////////////////////////////////////////////// VENUE LIST ////
+///////////////////////////////////////////////////// VENUE LIST ////////
 // Render a venue list page for the user to select a venue page to go to
 app.get("/venue-list", (request, response) => {
   Venue.findAll().then(venues => {
@@ -111,8 +111,13 @@ app.get("/venue-list", (request, response) => {
     //response.json(venues);
   });
 });
-/////////////////////////////////////////////////////////// VENUE PAGE ////
-
+///////////////////////////////////////////////////// VENUE PAGE ////////
+// Render a venue page for the user to play
+app.get("/venue/", (request, response) => {
+  const venueName = request.query.venue;
+  response.render("venue", { venue: venueName });
+});
+////////////////////////////////////////////////////// LISTEN TO PORT ////
 // listen for port
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
