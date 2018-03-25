@@ -22,17 +22,6 @@ require("isomorphic-fetch");
 app.use("/styles", express.static("styles"));
 app.use("/images", express.static("images"));
 
-var SpotifyWebApi = require("spotify-web-api-node");
-
-// credentials are optional
-var spotifyApi = new SpotifyWebApi({
-  clientId: "cb37096286df46e7a1882448247c71ff",
-  clientSecret: "1f0febc6b6534cd2b33e07b4119f4bd9",
-  redirectUri: "http://localhost:8888/callback"
-});
-spotifyApi.setAccessToken(
-  "BQD8-fNdQGGYb9o2OIFUICyg2kD45fJaRMJw41dKaSPX16URkKUCJ_EA57O-215iuqg2g3RC1iuQGa8kbGO4ZnCV0GGPe1LtwQHARchxuU_Rwfwb-SHAy647bgyVHmYk9J9RAx6e8aOUTBsbEHVBKBdjy0UqUKN46A&refresh_token=AQBmfXEu3xOP1FfMiZMczttl9D8-jf5VEEuL7glVzt7GA1RN6QwKhufbce2YF-Pj_zBPoqoiNb1YzMk4v2KkCWOkjC6zDuWxxx3h0MPBlTzqzcWfUR7JMADJjf7NAyKt04o"
-);
 // Set up the session middleware which will let use `request.session`
 app.use(
   session({
@@ -130,13 +119,10 @@ app.post("/signup", urlencodedParser, (request, response) => {
 // Render a venue list page for the user to select a venue page to go to
 app.get("/venue-list", (request, response) => {
   Venue.findAll().then(venues => {
+    // store the access token in a session variable
     request.session.access_token = request.query.access_token;
-    console.log(
-      "request.query.access_token in venue list ",
-      request.session.access_token
-    );
-    response.render("venue-list", { venues: venues });
-    //response.json(venues);
+    // render the list of venues
+    response.render("venue-list", { venues });
   });
 });
 // https://api.spotify.com/v1/users/tarafenton/playlists
@@ -146,78 +132,51 @@ const getReponseAsJSON = url => {
 };
 // Render a venue page for the user to play
 app.get("/venue/", (request, response) => {
+  // get the venue name passed from the venue list page
   const venueName = request.query.venue;
-
-  // console.log(access_token);
-  // const sendData = { venue: venueName };
+  // get the json from the playlist api
   getReponseAsJSON(
     `https://api.spotify.com/v1/users/tarafenton/playlists/?access_token=${
       request.session.access_token
     }`
-  ).then(json => {
-    console.log(json);
-    response.render("venue", { venueName: venueName, data: json });
+  ).then(data => {
+    // render the venue page
+    response.render("venue", { venueName, data });
   });
-  // fetch(
-  //   `https://api.spotify.com/v1/users/tarafenton/playlists/?access_token=${
-  //     request.session.access_token
-  //   }`
-  // )
-  //   .then(data => {
-  //     if (response.status >= 400) {
-  //       throw new Error("Bad response from server");
-  //     }
-  //     console.log(data);
-  //     response.render("venue", { venueName: venueName, data: data });
-  //     // return response.json();
-  //   })
-  //   .catch(error => {
-  //     response.send(error);
-  //   });
 });
+// /////////////////////////////////////////////////// PLAYLIST PAGE ////////
 
-// get users playlists
-// Get a user's playlists
-// spotifyApi.getUserPlaylists("tarafenton").then(
-//   function(data) {
-//     console.log("Retrieved playlists", data.body);
-//     sendData.data = data.body;
-//     response.render("venue", { venueName: venueName });
-//   },
-//   function(err) {
-//     console.log("Something went wrong!", err);
-//   }
-// );
-
-// Get Elvis' albums
-// spotifyApi.getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE").then(
-//   function(data) {
-//     sendData.data = data.body;
-//     console.log("Artist albums", data.body);
-//     response.render("venue", { sendData: sendData });
-//   },
-//   function(err) {
-//     console.error(err);
-//   }
-// );
-
+// Render a venue page for the user to play
 app.get("/playlist/", (request, response) => {
+  // get the venue name passed from the venue list page
   const playlistId = request.query.playlistId;
-  //const sendData = { venue: venueName };
+  // get the json from the playlist api
+  getReponseAsJSON(
+    `https://api.spotify.com/v1/users/tarafenton/playlists/${playlistId}?access_token=${
+      request.session.access_token
+    }`
+  ).then(data => {
+    console.log(data);
+    // render the playlist page
+    response.render("playlist", { data });
+  });
+});
+// /////////////////////////////////////////////////// TRACK PAGE ////////
 
-  // get users playlists
-  // Get a user's playlists
-  // Get a playlist
-  spotifyApi.getPlaylist("tarafenton", playlistId).then(
-    function(data) {
-      console.log("Some information about this playlist", data.body);
-
-      response.render("venue", { sendData: data.body });
-    },
-    function(err) {
-      console.log("Something went wrong!", err);
-    }
-  );
+// Render a venue page for the user to play
+app.get("/track/", (request, response) => {
+  // get the venue name passed from the venue list page
+  const trackId = request.query.trackId;
+  // get the json from the playlist api
+  getReponseAsJSON(
+    `https://api.spotify.com/v1/tracks/${trackId}?access_token=${
+      request.session.access_token
+    }`
+  ).then(data => {
+    console.log(data);
+    // render the playlist page
+    response.render("track", { data });
+  });
 });
 // //////////////////////////////////////////////////// LISTEN TO PORT ////
 // listen for port

@@ -1,0 +1,101 @@
+<% include ../partials/header %>
+<body>
+  <h1>Spotify Web Playback SDK Quick Start Tutorial</h1>
+  <h2>Open your console log: <code>View > Developer > JavaScript Console</code></h2>
+
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+
+  <div class="content">
+    <div class="header">
+
+<br><h2>Track:</h2>
+<a href="<%=data.external_urls.spotify%>" target="_blank"><%= data.external_urls.spotify %></a>
+
+    </div>
+
+<a href="/venue-list">venue list</a>
+    </div>
+
+    <script>
+    window.onSpotifyWebPlaybackSDKReady = () => {
+  const token =
+    "BQAe-n8g6dykKnnXqjcno4LS3G3EiE88-kpvz8hT2BABFS-G5JVhbTmhe4O-dCBv4GZHkp1gabtIDA2SWIo58CjwnZYYyovMXn3af_yEjEkE6yXP4PxIMoJND1FiQIhJUuCneIFCpJPOBchkZsH7tbR9PjywFZPxyQcUqQ";
+  const player = new Spotify.Player({
+    //name: "Web Playback SDK Quick Start Player",
+    name: "Venue Player",
+    getOAuthToken: cb => {
+      cb(token);
+    }
+  });
+  // const play = ({
+  //   spotify_uri,
+  //   playerInstance: { _options: { getOAuthToken, id } }
+  // }) => {
+  //   getOAuthToken(access_token => {
+  //
+  //   });
+  // };
+
+  // play({
+  //   playerInstance: new Spotify.Player({ name: "..." }),
+  //   spotify_uri: "spotify:track:7xGfFoTpQ2E7fRF5lN10tr"
+  // });
+  // Error handling
+  player.addListener("initialization_error", ({ message }) => {
+    console.error(message);
+  });
+  player.addListener("authentication_error", ({ message }) => {
+    console.error(message);
+  });
+  player.addListener("account_error", ({ message }) => {
+    console.error(message);
+  });
+  player.addListener("playback_error", ({ message }) => {
+    console.error(message);
+  });
+
+  // Playback status updates
+  player.addListener("player_state_changed", state => {
+    console.log(state);
+  });
+  //const device_id = "";
+  // Ready
+  player.addListener("ready", ({ device_id }) => {
+    console.log("Ready with Device ID", device_id);
+    //device_id = device_id;
+    //player.play(this, "spotify:track:7xGfFoTpQ2E7fRF5lN10tr");
+    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        uris: ["spotify:track:7xGfFoTpQ2E7fRF5lN10tr"]
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    });
+  });
+
+  // Connect to the player!
+  //player.connect();
+  player.connect().then(success => {
+    if (success) {
+      console.log("The Web Playback SDK successfully connected to Spotify!");
+    }
+  });
+  player.getCurrentState().then(state => {
+    if (!state) {
+      console.error("User is not playing music through the Web Playback SDK");
+      return;
+    }
+
+    let { current_track, next_tracks: [next_track] } = state.track_window;
+
+    console.log("Currently Playing", current_track);
+    console.log("Playing Next", next_track);
+  });
+};
+</script>
+<button onclick="">click me</button>
+</body>
+</html>
