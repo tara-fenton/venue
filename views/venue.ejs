@@ -2,10 +2,18 @@
 <body>
   <div class="content">
     <div class="header">
-      <h2><%=sendData.venue%> Venue:</h2>
-<br><h2> Data:<%=sendData.data.items[0].album_group%></h2>
-    </div>
+      <h2><%=venueName%> Venue:</h2>
+<br><h2>playlists:</h2>
 
+<!-- LIST OF PLAYLISTS -->
+
+
+<% for(var i=0; i < data.items.length; i++) {%>
+  <h3><a href='/playlist/?playlistId=<%= data.items[i].id %>'>
+    <%= data.items[i].name %>
+  </a></h3>
+<% } %>
+    </div>
 
 <a href="/venue-list">venue list</a>
     </div>

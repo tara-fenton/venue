@@ -16,6 +16,7 @@
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
     "ejs": "^2.5.7",
     "es6-promise": "^4.2.4",
     "eslint": "^4.19.1",
@@ -29,6 +30,7 @@
     "node-gyp": "^3.6.2",
     "nodemon": "^1.17.2",
     "pg-promise": "^8.2.2",
+    "request": "^2.85.0",
     "spotify-web-api-node": "^3.0.0"
   }
 }
