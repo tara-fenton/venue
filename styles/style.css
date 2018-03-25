@@ -5,7 +5,18 @@ html {
 }
 h2 {
   font-size: 30px;
-  padding: 10px 0;
+  padding: 20px 0;
+}
+h3 {
+  font-size: 20px;
+  padding: 6px 0;
+}
+a {
+  text-decoration: none;
+  color: #4caf50;
+}
+a:hover {
+  text-decoration: underline;
 }
 .content {
   width: 300px;
@@ -24,10 +35,16 @@ h2 {
   padding: 20px 0;
 }
 .member a {
-  text-decoration: none;
-  color: green;
   padding: 0 2px 0 5px;
 }
-.member a:hover {
-  text-decoration: underline;
+
+.btn {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }

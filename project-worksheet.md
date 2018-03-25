@@ -48,7 +48,13 @@ Include the full list of features that you are considering for POST MVP
 *   go to venue page and have a dj button
 *   store dj in database
 *   dj can open their playlists or create a new one
+*   page through playlists
 *   dj can add to playlist
+*   handle log in errors
+
+Questions:
+What can I do about the spotify loggedin
+Looks like a bunch of code i dont need
 
 ### PHASE THREE
 
