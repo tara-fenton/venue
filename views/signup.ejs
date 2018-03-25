@@ -2,18 +2,19 @@
 <body>
   <div class="content">
     <div class="header">
-      <h2>Sign up:</h2>
-      <a href='/login'>Log in</a>
+      <h2>Venue Sign up:</h2>
     </div>
-
-    <form action="/signup" method="POST">
-      <input type="text" name="username" placeholder="username">
-      <input type="text" name="password" placeholder="password">
-      <input type="submit" value="submit">
-    </form>
-
-      <div class='message'><%= message %></div>
-
+    <div class="form">
+      <form action="/signup" method="POST">
+        <input type="text" name="username" placeholder="username">
+        <input type="text" name="password" placeholder="password">
+        <input type="submit" value="submit">
+      </form>
     </div>
+    <div class='message'><%= message %></div>
+    <div class='member'>
+      Already a member? <a href='/login'>Log in</a>
+    </div>
+  </div>
 </body>
 </html>

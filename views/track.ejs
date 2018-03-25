@@ -1,13 +1,13 @@
 <% include ../partials/header %>
 <body>
-  <h1>Spotify Web Playback SDK Quick Start Tutorial</h1>
-  <h2>Open your console log: <code>View > Developer > JavaScript Console</code></h2>
-
+  <!-- https://beta.developer.spotify.com/documentation/web-playback-sdk/quick-start/# -->
+  <!-- https://beta.developer.spotify.com/documentation/web-playback-sdk/reference/#api-spotify-player -->
+  <!-- get the spotify player to use to play songs -->
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
 
   <div class="content">
     <div class="header">
-
+<%=token%>
 <br><h2>Track:</h2>
 <a href="<%=data.external_urls.spotify%>" target="_blank"><%= data.external_urls.spotify %></a>
 
@@ -18,8 +18,7 @@
 
     <script>
     window.onSpotifyWebPlaybackSDKReady = () => {
-  const token =
-    "BQAe-n8g6dykKnnXqjcno4LS3G3EiE88-kpvz8hT2BABFS-G5JVhbTmhe4O-dCBv4GZHkp1gabtIDA2SWIo58CjwnZYYyovMXn3af_yEjEkE6yXP4PxIMoJND1FiQIhJUuCneIFCpJPOBchkZsH7tbR9PjywFZPxyQcUqQ";
+  const token = `<%=token%>`;
   const player = new Spotify.Player({
     //name: "Web Playback SDK Quick Start Player",
     name: "Venue Player",
@@ -67,7 +66,7 @@
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
       method: "PUT",
       body: JSON.stringify({
-        uris: ["spotify:track:7xGfFoTpQ2E7fRF5lN10tr"]
+        uris: [`spotify:track:<%=data.id%>`]
       }),
       headers: {
         "Content-Type": "application/json",
@@ -96,6 +95,5 @@
   });
 };
 </script>
-<button onclick="">click me</button>
 </body>
 </html>

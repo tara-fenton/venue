@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Anton|Saira+Extra+Condensed");
+
+html {
+  font-family: "Anton";
+}
+h2 {
+  font-size: 30px;
+  padding: 10px 0;
+}
+.content {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  padding: 10px;
+}
+.member {
+  font-family: "Saira Extra Condensed";
+  font-weight: normal;
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0;
+}
+.member a {
+  text-decoration: none;
+  color: green;
+  padding: 0 2px 0 5px;
+}
+.member a:hover {
+  text-decoration: underline;
+}

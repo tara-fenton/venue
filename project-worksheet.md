@@ -43,21 +43,12 @@ Include the full list of features that you are considering for POST MVP
 
 ### PHASE TWO
 
-Expand the game view: Four rows, one bartender, several customers, several beers
-
-*   Create four rows and four taps
-
-The bartender will be able to:
-
-*   move through the rows
-*   loop around from the bottom to the top and from the top to the bottom
-*   move to the left to catch a beer glass
-*   jump back to tap by pouring (space bar)
-*   stop pouring by moving to another row
-
-Several customers & beers:
-
-*   one per row will appear for level 1, two per row for level 2
+*   users, venues, playlists, djs
+*   style the site
+*   go to venue page and have a dj button
+*   store dj in database
+*   dj can open their playlists or create a new one
+*   dj can add to playlist
 
 ### PHASE THREE
 

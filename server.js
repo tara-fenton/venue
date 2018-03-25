@@ -167,15 +167,14 @@ app.get("/playlist/", (request, response) => {
 app.get("/track/", (request, response) => {
   // get the venue name passed from the venue list page
   const trackId = request.query.trackId;
+  const token = request.session.access_token;
   // get the json from the playlist api
   getReponseAsJSON(
-    `https://api.spotify.com/v1/tracks/${trackId}?access_token=${
-      request.session.access_token
-    }`
+    `https://api.spotify.com/v1/tracks/${trackId}?access_token=${token}`
   ).then(data => {
     console.log(data);
     // render the playlist page
-    response.render("track", { data });
+    response.render("track", { data, token });
   });
 });
 // //////////////////////////////////////////////////// LISTEN TO PORT ////
