@@ -1,10 +1,13 @@
 \c venue_app
 
 INSERT INTO venues (name)
-VALUES ('ewoks');
+VALUES ('Ewoks');
 
 INSERT INTO venues (name)
-VALUES ('NYU');
+VALUES ('Endor');
+
+INSERT INTO venues (name)
+VALUES ('Avengers');
 
 INSERT INTO users (user_name, hashed_password)
 VALUES ('tara', '$2a$10$XVZRCAmMi5REehBuXAV5l.RCCzqB5X2MydEyAj5xEDNzViC4uH.A.');

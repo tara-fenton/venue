@@ -10,6 +10,8 @@ const session = require("express-session");
 // import models
 const User = require("./models/User");
 const Venue = require("./models/Venue");
+const Dj = require("./models/Dj");
+// const Playlist = require("./models/Playlist");
 
 const spotifyApp = require("./spotify-api");
 
@@ -82,7 +84,8 @@ app.post("/login", urlencodedParser, (request, response) => {
       if (request.body.username === user.user_name && isMatch) {
         // Set the session data.
         request.session.authenticated = true;
-        // response.redirect("/");
+        request.session.venueUserId = user.id;
+        // response.json(user);
         response.render("spotify-login");
       } else {
         // password does not match
@@ -115,35 +118,70 @@ app.post("/signup", urlencodedParser, (request, response) => {
       response.send(error);
     });
 });
-// /////////////////////////////////////////////////// VENUE LIST ////////
-// Render a venue list page for the user to select a venue page to go to
-app.get("/venue-list", (request, response) => {
-  Venue.findAll().then(venues => {
-    // store the access token in a session variable
-    request.session.access_token = request.query.access_token;
-    // render the list of venues
-    response.render("venue-list", { venues });
-  });
-});
-// https://api.spotify.com/v1/users/tarafenton/playlists
-// /////////////////////////////////////////////////// VENUE PAGE ////////
+// /////////////////////////////////////////////////// GET JSON //////////
 const getReponseAsJSON = url => {
   return fetch(url).then(response => response.json());
 };
+// /////////////////////////////////////////////////// VENUE LIST ////////
+// Render a venue list page for the user to select a venue page to go to
+app.get("/venue-list", (request, response) => {
+  // store the access token in a session variable
+  if (!request.session.access_token) {
+    request.session.access_token = request.query.access_token;
+  }
+  // get the json from the spotify user
+  getReponseAsJSON(
+    `https://api.spotify.com/v1/me?access_token=${request.session.access_token}`
+  ).then(data => {
+    // response.json(data);
+    request.session.spotifyId = data.id;
+
+    Venue.findAll().then(venues => {
+      // render the list of venues
+      response.render("venue-list", { venues });
+    });
+  });
+});
+
+// /////////////////////////////////////////////////// VENUE PAGE ////////
 // Render a venue page for the user to play
 app.get("/venue/", (request, response) => {
   // get the venue name passed from the venue list page
   const venueName = request.query.venue;
+  // render the venue page
+  Venue.findByName(venueName).then(venue => {
+    request.session.venueId = venue.id;
+    response.render("venue", { venue });
+  });
+});
+// /////////////////////////////////////////////////// DJ PAGE ////////
+// Render a venue page for the user to play
+app.get("/dj/", (request, response) => {
+  // get the venue name passed from the venue list page
+  // next and previous functionality
+  let justOffSet = 0;
+  if (request.query.nextUrl !== undefined) {
+    const offSetUrl = request.query.nextUrl;
+    justOffSet = offSetUrl.slice(offSetUrl.indexOf("?") + 8);
+  }
+
+  // const venueName = request.query.venue;
   // get the json from the playlist api
   getReponseAsJSON(
-    `https://api.spotify.com/v1/users/tarafenton/playlists/?access_token=${
+    `https://api.spotify.com/v1/users/${
+      request.session.spotifyId
+    }/playlists/?offset=${justOffSet}&access_token=${
       request.session.access_token
     }`
   ).then(data => {
-    // render the venue page
-    response.render("venue", { venueName, data });
+    response.render("dj", { data });
+    //response.json(data);
+    Dj.create(request.session.venueUserId, request.session.venueId).then({
+      // render the venue page
+    });
   });
 });
+
 // /////////////////////////////////////////////////// PLAYLIST PAGE ////////
 
 // Render a venue page for the user to play
@@ -152,13 +190,14 @@ app.get("/playlist/", (request, response) => {
   const playlistId = request.query.playlistId;
   // get the json from the playlist api
   getReponseAsJSON(
-    `https://api.spotify.com/v1/users/tarafenton/playlists/${playlistId}?access_token=${
-      request.session.access_token
-    }`
+    `https://api.spotify.com/v1/users/${
+      request.session.spotifyId
+    }/playlists/${playlistId}?access_token=${request.session.access_token}`
   ).then(data => {
     console.log(data);
     // render the playlist page
-    response.render("playlist", { data });
+    response.json(data);
+    // response.render("playlist", { data });
   });
 });
 // /////////////////////////////////////////////////// TRACK PAGE ////////

@@ -37,7 +37,9 @@ a:hover {
 .member a {
   padding: 0 2px 0 5px;
 }
-
+.btn:hover {
+  text-decoration: none;
+}
 .btn {
   background-color: #4caf50; /* Green */
   border: none;
@@ -47,4 +49,16 @@ a:hover {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+}
+.exit:hover {
+  text-decoration: none;
+}
+.exit {
+  background-color: black;
+  display: inline-block;
+  text-align: center;
+  padding: 15px 10px 15px 10px;
+  width: 34px;
+  height: 60px;
+  margin: 10px;
 }

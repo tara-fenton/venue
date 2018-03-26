@@ -26,6 +26,5 @@ CREATE TABLE playlists (
 CREATE TABLE djs (
   id BIGSERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),
-  venue_id INTEGER REFERENCES venues(id),
-  playlist_id INTEGER REFERENCES playlists(id)
+  venue_id INTEGER REFERENCES venues(id)
 );
