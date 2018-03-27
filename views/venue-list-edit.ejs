@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+<body>
+  <div class="content">
+    <div class="header">
+      <h2>Venues</h2>
+    </div>
+
+      <!-- LIST OF VENUES -->
+      <% for(var i=0; i<venues.length; i++) {%>
+        <div class='venueCrud'>
+          <h2><%= venues[i].name %></h2>
+          <div class='crudButtons'>
+          <form class='venueCrud' action='/venue-list-edit-form/<%=venues[i].id%>/edit' method="get"
+            style=" display:inline!important;">
+            <!-- hahha i could not resist -->
+            <button class="create">Edit</button>
+          </form>
+          <form  action='/venue-list-edit-form/<%=venues[i].id%>?_method=DELETE' method="post"
+            style=" display:inline!important;">
+            <button class="create">Delete</button>
+          </form>
+        </div>
+          <!-- <a href='/venue-list-edit-form/<%= venues[i].id %>/edit'> Edit</a> -->
+        </div>
+      <% } %>
+
+    </div>
+</body>
+</html>

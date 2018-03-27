@@ -64,13 +64,17 @@ a:hover {
 }
 .createForm {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
 }
 .create {
   border: 3px solid black;
   font-family: "Anton";
   margin: 10px 0;
   font-size: 20px;
+}
+.crud {
+  margin: 0 0 0 10px;
 }
 .navPlaylist {
   display: flex;
@@ -87,4 +91,11 @@ a:hover {
 }
 button:focus {
   outline: 0;
+}
+input {
+  height: 32px;
+  font-family: "Anton";
+  font-size: 20px;
+  width: 170px;
+  padding: 0 0 0 5px;
 }

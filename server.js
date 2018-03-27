@@ -14,6 +14,10 @@ const Venue = require("./models/Venue");
 const Dj = require("./models/Dj");
 // const Playlist = require("./models/Playlist");
 
+// method override
+const methodOverride = require("method-override");
+
+app.use(methodOverride("_method"));
 // spotify log in - code from developer site
 const spotifyApp = require("./spotify-api");
 
@@ -55,11 +59,11 @@ const requireLogin = (request, response, next) => {
   }
   next();
 };
-app.get("/", requireLogin, (request, response) => {
-  response.send(`<a href="/login/index">login</a>`);
-});
-
 let message = "";
+
+app.get("/", requireLogin, (request, response) => {
+  response.render("login", { message });
+});
 // ///////////////////////////////////////////////////////// LOG IN ////////
 // Render a login form for the user.
 app.get("/login", (request, response) => {
@@ -145,7 +149,65 @@ app.get("/venue-list", (request, response) => {
     });
   });
 });
+// /////////////////////////////////////////////////// VENUE LIST EDIT ////////
+// Render a venue list page for the user to edit
+app.get("/venue-list-edit", (request, response) => {
+  Venue.findAll().then(venues => {
+    // render the list of venues
+    response.render("venue-list-edit", { venues });
+  });
+});
+// Render a venue list page for the user to edit
+app.get("/venue-list-add", (request, response) => {
+  // Venue.findAll().then(venues => {
+  // render the list of venues
+  response.render("venue-list-add");
+  // });
+});
+// /////////////////////////////////////////////////// VENUE LIST ADD ////////
+app.post("/addVenue", urlencodedParser, (request, response) => {
+  const data = request.body;
+  const venueNameEntered = data.venueName;
+  // TODO: dynamically popualate the playlist to a spotify playlist
+  Venue.create(venueNameEntered, "playlist id to be entered")
+    // redirect to the list of venues
+    .then(response.redirect("/venue-list/"))
+    .catch(error => {
+      response.send(error);
+    });
+});
+// /////////////////////////////////////////////////// VENUE LIST EDIT FORM ////
+// Render a venue list page for the user to edit
+app.get("/venue-list-edit-form/:id/edit", (request, response) => {
+  const venueId = Number(request.params.id);
+  Venue.findById(venueId).then(venue => {
+    response.render("venue-list-edit-id", { venue });
+  });
+});
+// /////////////////////////////////////////////////// VENUE LIST EDIT ID ////////
+// edit put
+app.put("/venue-list-edit-form/:id", urlencodedParser, (request, response) => {
+  // pull the data out of the request.body
+  const data = request.body;
+  // update data in the database
+  Venue.edit(data)
+    .then(response.redirect("/venue-list/"))
+    .catch(error => {
+      response.send(error);
+    });
+});
 
+// /////////////////////////////////////////////////// VENUE LIST EDIT ID ////////
+// delete delete
+app.delete("/venue-list-edit-form/:id", (request, response) => {
+  const taskId = Number(request.params.id);
+  Venue.delete(taskId).then(() => {
+    response.redirect("/venue-list/");
+    // Task.findAll().then(tasks => {
+    //   response.render("index", { tasks });
+    // });
+  });
+});
 // /////////////////////////////////////////////////// VENUE PAGE ////////
 // Render a venue page for the user to play
 app.get("/venue/", (request, response) => {

@@ -1,4 +1,4 @@
-// USER MODEL !!!
+// USER MODEL !!! not really used, but inserts into djs, will implement later
 const { db } = require("../database/index");
 
 const Dj = {};

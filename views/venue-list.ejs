@@ -9,6 +9,12 @@
       <% for(var i=0; i<venues.length; i++) {%>
         <h3><a href='venue/?venue=<%= venues[i].name %>'><%= venues[i].name %></a></h3>
       <% } %>
+      <form action="/venue-list-add" method="get">
+        <button class="create">Add Venues</button>
+      </form>
+      <form action="/venue-list-edit" method="get">
+        <button class="create">Edit Venues</button>
+      </form>
     </div>
 </body>
 </html>

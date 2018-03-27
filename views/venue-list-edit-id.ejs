@@ -1,0 +1,15 @@
+<% include ../partials/header %>
+<body>
+  <div class="content">
+    <div class="header">
+      <h2>Venues</h2>
+    </div>
+      <!-- VENUES ID TO EDIT-->
+      <form  action='/venue-list-edit-form/<%=venue.id%>?_method=PUT' method="post" class="createForm">
+        <input type="text" name="venueName" value="<%= venue.name %>">
+        <input type="hidden" name="venueId" value="<%= venue.id %>">
+        <button class="create crud">Edit Venue</button>
+      </form>
+    </div>
+</body>
+</html>

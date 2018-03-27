@@ -1,4 +1,4 @@
-// USER MODEL !!!
+// USER MODEL !!! not used
 const { db } = require("../database/index");
 
 const Playlist = {};
