@@ -9,7 +9,8 @@ DROP TABLE users;
 
 CREATE TABLE venues (
   id BIGSERIAL PRIMARY KEY,
-  name VARCHAR(255)
+  name VARCHAR(255),
+  playlist_id VARCHAR(255)
 );
 
 CREATE TABLE users (

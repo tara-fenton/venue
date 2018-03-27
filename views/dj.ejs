@@ -2,18 +2,22 @@
 <body>
   <div class="content">
     <div class="header">
-
-<br><h2>playlists:</h2>
-
-<!-- LIST OF PLAYLISTS -->
-<% for(var i=0; i < data.items.length; i++) {%>
-  <h3><a href='/playlist/?playlistId=<%= data.items[i].id %>'>
-    <%= data.items[i].name %>
-  </a></h3>
-<% } %>
+      <h2><%=venueName%> Venue</h2>
+      <h2><%=spotifyUserName%>'s playlists</h2>
     </div>
-<a href="/dj/?nextUrl=<%= data.previous %>" class="exit">Previous</a>
-<a href="/dj/?nextUrl=<%= data.next %>" class="exit">Next</a>
+      <form action="/createPlaylist" method="post" class="createForm">
+        <button class="create">Create Playlist</button>
+      </form>
+      <!-- LIST OF PLAYLISTS -->
+      <% for(var i=0; i < data.items.length; i++) {%>
+        <h3><a href='/playlist/?venue=<%=venueName%>&playlistId=<%= data.items[i].id %>&playlistName=<%= data.items[i].name %>'>
+          <%= data.items[i].name %>
+        </a></h3>
+      <% } %>
+      <div class='navPlaylist'>
+        <a href="/dj/?nextUrl=<%= data.previous %>" class="nextPrev">Previous</a>
+        <a href="/dj/?nextUrl=<%= data.next %>" class="nextPrev">Next</a>
+      </div>
   </div>
   <a href="/venue-list" class="exit">Exit</a>
 </body>

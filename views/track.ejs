@@ -7,18 +7,18 @@
 
   <div class="content">
     <div class="header">
-<%=token%>
-<br><h2>Track:</h2>
-<a href="<%=data.external_urls.spotify%>" target="_blank"><%= data.external_urls.spotify %></a>
-
+      <h2><%=venueName%> Venue</h2>
+      <h2><%=data.name%></h2>
+      <a href="<%=data.external_urls.spotify%>" target="_blank"><%= data.external_urls.spotify %></a>
+      <form action="/addToPlaylist?venue=<%=venueName%>&trackId=<%=data.id%>" method="post" class="createForm">
+        <button class="create">Add to Playlist</button>
+      </form>
     </div>
-
-<a href="/venue-list">venue list</a>
-    </div>
-
+  </div>
+  <!-- script to play in browser -->
     <script>
     window.onSpotifyWebPlaybackSDKReady = () => {
-  const token = `<%=token%>`;
+  const token = `BQC04CP9Ukb-vu84zcZJINIWyc20VhsQ-NNGTeNz1g-vS8TfkoKTplVp3MHyPEqiIMwXUKGQzJCYxrhoMeiecydKyXIfy1hI6pQ4W8X8oEdtyEe0kGQqFd4bckwlWSVUomOBcolqFJiVEtK1hB4zTB9inP1omNPULhTa7w`;
   const player = new Spotify.Player({
     //name: "Web Playback SDK Quick Start Player",
     name: "Venue Player",
@@ -26,19 +26,6 @@
       cb(token);
     }
   });
-  // const play = ({
-  //   spotify_uri,
-  //   playerInstance: { _options: { getOAuthToken, id } }
-  // }) => {
-  //   getOAuthToken(access_token => {
-  //
-  //   });
-  // };
-
-  // play({
-  //   playerInstance: new Spotify.Player({ name: "..." }),
-  //   spotify_uri: "spotify:track:7xGfFoTpQ2E7fRF5lN10tr"
-  // });
   // Error handling
   player.addListener("initialization_error", ({ message }) => {
     console.error(message);
@@ -52,17 +39,14 @@
   player.addListener("playback_error", ({ message }) => {
     console.error(message);
   });
-
   // Playback status updates
   player.addListener("player_state_changed", state => {
     console.log(state);
   });
-  //const device_id = "";
   // Ready
   player.addListener("ready", ({ device_id }) => {
     console.log("Ready with Device ID", device_id);
-    //device_id = device_id;
-    //player.play(this, "spotify:track:7xGfFoTpQ2E7fRF5lN10tr");
+    // spotify:track:7xGfFoTpQ2E7fRF5lN10tr
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -76,7 +60,6 @@
   });
 
   // Connect to the player!
-  //player.connect();
   player.connect().then(success => {
     if (success) {
       console.log("The Web Playback SDK successfully connected to Spotify!");

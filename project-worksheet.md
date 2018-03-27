@@ -52,9 +52,19 @@ Include the full list of features that you are considering for POST MVP
 *   dj can add to playlist
 *   handle log in errors
 
+### PHASE TWO
+
+*   store dj in database
+*   dj can open their playlists or create a new one
+*   dj can add to playlist
+*   handle log in errors
+
 Questions:
 What can I do about the spotify loggedin
 Looks like a bunch of code i dont need
+plus something weird loads when you get to the Page
+
+do sessions go away on refresh??
 
 ### PHASE THREE
 

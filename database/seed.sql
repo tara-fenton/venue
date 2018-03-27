@@ -1,18 +1,18 @@
 \c venue_app
 
-INSERT INTO venues (name)
-VALUES ('Ewoks');
+INSERT INTO venues (name, playlist_id)
+VALUES ('Ewoks', '1BD1K3MScX6w7NlRPqxdZt');
 
-INSERT INTO venues (name)
-VALUES ('Endor');
+INSERT INTO venues (name, playlist_id)
+VALUES ('Endor', '4qwFVghVdOJMmOHRUktDZ6');
 
-INSERT INTO venues (name)
-VALUES ('Avengers');
+INSERT INTO venues (name, playlist_id)
+VALUES ('Avengers', '74eSK1LW0Trl4ZNUjUiySF');
 
 INSERT INTO users (user_name, hashed_password)
 VALUES ('tara', '$2a$10$XVZRCAmMi5REehBuXAV5l.RCCzqB5X2MydEyAj5xEDNzViC4uH.A.');
 
-
+-- 1BD1K3MScX6w7NlRPqxdZt
 -- CREATE TABLE playlists (
 --   id BIGSERIAL PRIMARY KEY,
 --   song_id INTEGER REFERENCES songs(id)

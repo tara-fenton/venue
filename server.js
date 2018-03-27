@@ -6,6 +6,7 @@ const PORT = 3000;
 
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const FileStore = require("session-file-store")(session);
 
 // import models
 const User = require("./models/User");
@@ -13,12 +14,13 @@ const Venue = require("./models/Venue");
 const Dj = require("./models/Dj");
 // const Playlist = require("./models/Playlist");
 
+// spotify log in - code from developer site
 const spotifyApp = require("./spotify-api");
 
 app.use(spotifyApp);
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 require("es6-promise").polyfill();
-require("isomorphic-fetch");
+const fetch = require("isomorphic-fetch");
 
 // styles sheets
 app.use("/styles", express.static("styles"));
@@ -27,6 +29,7 @@ app.use("/images", express.static("images"));
 // Set up the session middleware which will let use `request.session`
 app.use(
   session({
+    store: new FileStore(),
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true
@@ -149,22 +152,41 @@ app.get("/venue/", (request, response) => {
   // get the venue name passed from the venue list page
   const venueName = request.query.venue;
   // render the venue page
-  Venue.findByName(venueName).then(venue => {
-    request.session.venueId = venue.id;
-    response.render("venue", { venue });
-  });
+  Venue.findByName(venueName)
+    .then(venue => {
+      request.session.venueId = venue.id;
+      //response.render("venue", { venue });
+      getReponseAsJSON(
+        `https://api.spotify.com/v1/users/${
+          request.session.spotifyId
+        }/playlists/${venue.playlist_id}?access_token=${
+          request.session.access_token
+        }`
+      ).then(data => {
+        console.log(data);
+        // render the playlist page
+        //response.json(data);
+        response.render("venue", { data, venueName });
+      });
+    })
+    .catch();
 });
 // /////////////////////////////////////////////////// DJ PAGE ////////
 // Render a venue page for the user to play
 app.get("/dj/", (request, response) => {
+  const venueName = request.query.venue;
   // get the venue name passed from the venue list page
   // next and previous functionality
   let justOffSet = 0;
-  if (request.query.nextUrl !== undefined) {
+  if (
+    request.query.nextUrl !== undefined &&
+    request.query.nextUrl !== null &&
+    request.query.nextUrl !== ""
+  ) {
     const offSetUrl = request.query.nextUrl;
     justOffSet = offSetUrl.slice(offSetUrl.indexOf("?") + 8);
   }
-
+  const spotifyUserName = request.session.spotifyId;
   // const venueName = request.query.venue;
   // get the json from the playlist api
   getReponseAsJSON(
@@ -174,8 +196,8 @@ app.get("/dj/", (request, response) => {
       request.session.access_token
     }`
   ).then(data => {
-    response.render("dj", { data });
-    //response.json(data);
+    response.render("dj", { data, spotifyUserName, venueName });
+    // response.json(data);
     Dj.create(request.session.venueUserId, request.session.venueId).then({
       // render the venue page
     });
@@ -183,11 +205,12 @@ app.get("/dj/", (request, response) => {
 });
 
 // /////////////////////////////////////////////////// PLAYLIST PAGE ////////
-
 // Render a venue page for the user to play
 app.get("/playlist/", (request, response) => {
   // get the venue name passed from the venue list page
   const playlistId = request.query.playlistId;
+  const playlistName = request.query.playlistName;
+  const venueName = request.query.venue;
   // get the json from the playlist api
   getReponseAsJSON(
     `https://api.spotify.com/v1/users/${
@@ -196,24 +219,77 @@ app.get("/playlist/", (request, response) => {
   ).then(data => {
     console.log(data);
     // render the playlist page
-    response.json(data);
-    // response.render("playlist", { data });
+    //response.json(data);
+    response.render("playlist", { data, playlistName, venueName });
+  });
+});
+// /////////////////////////////////////////////////// CREATE PLAYLIST ////////
+// fetch request to create a playlist
+app.post("/createPlaylist", urlencodedParser, (request, response) => {
+  const token = request.session.access_token;
+  const data = {
+    name: "New Playlist",
+    description: "New playlist description",
+    public: false
+  };
+
+  fetch(
+    `https://api.spotify.com/v1/users/${request.session.spotifyId}/playlists`,
+    {
+      body: JSON.stringify(data), // must match 'Content-Type' header
+
+      headers: {
+        Authorization: `Bearer ${request.session.access_token}`,
+        "content-type": "application/json"
+      },
+
+      method: "POST" // *GET, POST, PUT, DELETE, etc.
+    }
+  )
+    .then(apiResponse => apiResponse.json())
+    .then(json => response.render("playlistAdded", json)); // parses response to JSON
+});
+// /////////////////////////////////////////////////// ADD TO PLAYLIST ////////
+// fetch request to add to a playlist
+app.post("/addToPlaylist", urlencodedParser, (request, response) => {
+  //  https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}/tracks
+  const venueName = request.query.venue;
+  const trackId = request.query.trackId;
+  Venue.findByName(venueName).then(venue => {
+    // get the playlist id stored in venues table in database
+    const playlistId = venue.playlist_id;
+    // fetch spotify api to add tracks to venue playlist
+    fetch(
+      `https://api.spotify.com/v1/users/${
+        request.session.spotifyId
+      }/playlists/${playlistId}/tracks?uris=spotify:track:${trackId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${request.session.access_token}`,
+          "content-type": "application/json"
+        },
+        method: "POST" // *GET, POST, PUT, DELETE, etc.
+      }
+    )
+      .then(apiResponse => apiResponse.json())
+      .then(json => response.render("trackAdded", json)); // parses response to JSON
   });
 });
 // /////////////////////////////////////////////////// TRACK PAGE ////////
-
 // Render a venue page for the user to play
 app.get("/track/", (request, response) => {
   // get the venue name passed from the venue list page
   const trackId = request.query.trackId;
   const token = request.session.access_token;
+  const venueName = request.query.venue;
   // get the json from the playlist api
   getReponseAsJSON(
     `https://api.spotify.com/v1/tracks/${trackId}?access_token=${token}`
   ).then(data => {
     console.log(data);
     // render the playlist page
-    response.render("track", { data, token });
+    // response.json(data);
+    response.render("track", { data, token, venueName });
   });
 });
 // //////////////////////////////////////////////////// LISTEN TO PORT ////

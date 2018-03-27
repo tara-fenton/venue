@@ -44,7 +44,8 @@ app.get("/spotify-login", function(req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = "user-read-private user-read-email";
+  var scope =
+    "user-read-private user-read-email playlist-read-collaborative user-library-read playlist-modify-public playlist-modify-private playlist-read-private";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -56,7 +57,7 @@ app.get("/spotify-login", function(req, res) {
       })
   );
 });
-
+//curl -X "POST" "https://api.spotify.com/v1/users/tarafenton/playlists" --data "{\"name\":\"New Playlist\",\"description\":\"New playlist description\",\"public\":false}" -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer BQBQXc8qYOVtgMYu-Bejwis0YzbE1kBdugMnUYg9VQm-Y2rlDLmWU4ouJQrrcFNkD6RyujQXq_311X3gcbv9QIW9nKSxM6MMrgAsVJoiPSu3kFdnCEQB19jnSmUW-BLAFmVH4k_f2OOo-djIhVP0CRf5APEi4GtSpbLA6T5MUfif7guySECqHExIlK9nh4L-pDfUd_u_lEOG"
 app.get("/callback", (req, res) => {
   // your application requests refresh and access tokens
   // after checking the state parameter

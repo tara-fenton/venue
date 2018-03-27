@@ -2,10 +2,17 @@
 <body>
   <div class="content">
     <div class="header">
-      <h2><%=venue.name%> Venue</h2>
-      <h2>Playlist:</h2>
+      <h2><%=venueName%> Venue</h2>
+
+      <%= data.tracks.items.length %> Songs
+      <!-- LIST OF TRACKS IN PLAYLIST -->
+      <% for(var i=0; i < data.tracks.items.length; i++) {%>
+        <h3><a href='/track/?venue=<%=venueName%>&trackId=<%= data.tracks.items[i].track.id %>'>
+          <%= data.tracks.items[i].track.name %>
+        </a></h3>
+      <% } %>
     </div>
-    <a href="/dj" class="btn">Be a DJ</a>
+    <a href="/dj/?venue=<%= venueName %>" class="btn">Be a DJ</a>
 
   </div>
   <a href="/venue-list" class="exit">Exit</a>

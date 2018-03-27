@@ -62,3 +62,29 @@ a:hover {
   height: 60px;
   margin: 10px;
 }
+.createForm {
+  display: flex;
+  justify-content: center;
+}
+.create {
+  border: 3px solid black;
+  font-family: "Anton";
+  margin: 10px 0;
+  font-size: 20px;
+}
+.navPlaylist {
+  display: flex;
+  flex-direction: row;
+}
+.nextPrev {
+  color: black;
+  background-color: #4caf50;
+  text-align: center;
+  padding: 15px 10px 15px 10px;
+  width: 60px;
+  height: 20px;
+  margin: 10px;
+}
+button:focus {
+  outline: 0;
+}
