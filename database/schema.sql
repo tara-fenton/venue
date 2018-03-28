@@ -1,7 +1,3 @@
-CREATE DATABASE venue_app;
-
-\c venue_app
-
 DROP TABLE venues CASCADE;
 DROP TABLE playlists CASCADE;
 DROP TABLE djs CASCADE;

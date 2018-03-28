@@ -1,4 +1,3 @@
-\c venue_app
 
 INSERT INTO venues (name, playlist_id)
 VALUES ('Ewoks', '1BD1K3MScX6w7NlRPqxdZt');
