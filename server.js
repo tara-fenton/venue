@@ -360,3 +360,6 @@ app.get("/track/", (request, response) => {
 // app.listen(PORT, () => {
 //   console.log(`Listening on ${PORT}`);
 // });
+app.listen(app.get("port"), function() {
+  console.log("Node app is running on port", app.get("port"));
+});
