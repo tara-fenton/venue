@@ -2,7 +2,8 @@
 const express = require("express");
 
 const app = express();
-const PORT = 3000;
+// const PORT = 3000;
+app.set("port", process.env.PORT || 5000);
 
 const bodyParser = require("body-parser");
 const session = require("express-session");
@@ -356,6 +357,6 @@ app.get("/track/", (request, response) => {
 });
 // //////////////////////////////////////////////////// LISTEN TO PORT ////
 // listen for port
-app.listen(PORT, () => {
-  console.log(`Listening on ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Listening on ${PORT}`);
+// });
