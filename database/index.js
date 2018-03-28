@@ -6,7 +6,7 @@ let db;
 if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
   db = pgp({
     // Fill in with your local database name
-    database: "venue_app",
+    database: "deohajts1prh5t",
     port: 5432,
     host: "localhost"
   });
