@@ -6,7 +6,7 @@ const PORT = 3000;
 
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const FileStore = require("session-file-store")(session);
+// const FileStore = require("session-file-store")(session);
 
 // import models
 const User = require("./models/User");
@@ -33,7 +33,7 @@ app.use("/images", express.static("images"));
 // Set up the session middleware which will let use `request.session`
 app.use(
   session({
-    store: new FileStore(),
+    // store: new FileStore(),
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true
