@@ -14,7 +14,7 @@ var cookieParser = require("cookie-parser");
 
 var client_id = "cb37096286df46e7a1882448247c71ff"; // Your client id
 var client_secret = "1f0febc6b6534cd2b33e07b4119f4bd9"; // Your secret
-var redirect_uri = "http://localhost:3000/callback"; // Your redirect uri
+var redirect_uri = "https://rocky-chamber-28173.herokuapp.com/callback"; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
