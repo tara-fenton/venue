@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
   });
 } else if (process.env.NODE_ENV === "production") {
   // Heroku will set this variable for you.
-  db = pgp(`${process.env.DATABASE_URL}?ssl=true`);
+  db = pgp(`${process.env.DATABASE_URL}`);
 }
 
 module.exports = db;

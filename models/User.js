@@ -1,5 +1,5 @@
 // USER MODEL !!!
-const { db } = require("../database/index");
+const db = require("../database/index");
 
 const User = {};
 

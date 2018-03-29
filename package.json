@@ -35,6 +35,8 @@
     "spotify-web-api-node": "^3.0.0"
   },
   "nodemonConfig": {
-    "ignore": ["sessions"]
+    "ignore": [
+      "sessions"
+    ]
   }
 }

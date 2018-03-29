@@ -1,5 +1,5 @@
 // USER MODEL !!! this is my crud!!! :)
-const { db } = require("../database/index");
+const db = require("../database/index");
 
 const Venue = {};
 
