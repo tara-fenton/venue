@@ -4,7 +4,7 @@
 
 ## Wireframes
 
-![alt text](https://git.generalassemb.ly/tara-fenton/project-1/blob/master/images/wireframes/IMG_0015.jpg)
+![alt text](https://git.generalassemb.ly/tara-fenton/project-2/blob/master/wireframe.png)
 
 ## User Stories
 
@@ -42,32 +42,40 @@ As a Venue dj or fan I want to chat with others in the venue so that we can disc
 
 ## The technologies, APIs, and modules you used and a description of each
 
-Spotify API
-"dependencies": {
-bcrypt -to crypt passwords
-body-parser - send data in post
-"cookie-parser": "^1.4.3",
-ejs": "^2.5.7",
-"es6-promise": "^4.2.4",
-"eslint - to
-"eslint-config-airbnb": "^16.1.0",
-"eslint-config-prettier": "^2.9.0",
-"eslint-plugin-import": "^2.9.0",
-"express": "^4.16.3",
-"express-session - to store session variables
-"isomorphic-fetch - to use fetch to post using api
-"method-override -
-"node-gyp": "^3.6.2",
-"nodemon - to run server while testing
-"pg-promise": "^8.2.2",
-"request": "^2.85.0",
-"session-file-store - to store session variables even when server is restarted
-"spotify-web-api-node": "^3.0.0"
+### Spotify API
+### dependencies:
+- bcrypt -to crypt passwords
+- body-parser - send data in post
+- ejs - for templating
+- es6-promise - for calls to promises
+- eslint - to use for code hinting
+- eslint-config-airbnb - to use for code hinting
+- eslint-config-prettier - to use for code hinting
+- eslint-plugin-import - to use for code hinting
+- express - framework for node
+- express-session - to store session variables
+- isomorphic-fetch - to use fetch to post using api
+- method-override - to use for crud, put and delete
+- node-gyp - used with bcrypt
+- nodemon - to run server while testing
+- pg-promise - for calls to promises
+- request - for http requests
+- session-file-store - to store session variables even when server is restarted
 
 ## A code snippet of a part of the app you're particularly proud of
 
 https://beta.developer.spotify.com/documentation/web-playback-sdk/quick-start/#
+https://beta.developer.spotify.com/documentation/web-playback-sdk/reference/#api-spotify-player
+![alt text](https://git.generalassemb.ly/tara-fenton/project-2/blob/master/codeSnippet1.png)
+![alt text](https://git.generalassemb.ly/tara-fenton/project-2/blob/master/codeSnippet2.png)
 
 ## Any things you plan to fix or features you plan to add
 
+- Clean up Spotify’s sample code for login
+- Allow users to collaborate on playlists
+- When adding a venue it will add the playlist it created
+
+
 ## Instructions for downloading the code and running it on localhost
+
+- I used a developer key to demonstrate the playing song, it will not work on heroku.
