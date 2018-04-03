@@ -1,5 +1,5 @@
 // USER MODEL !!! not used
-const { db } = require("../database/index");
+const db = require("../database/index");
 
 const Playlist = {};
 
