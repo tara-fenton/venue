@@ -43,6 +43,11 @@ As a Venue dj or fan I want to chat with others in the venue so that we can disc
 ## The technologies, APIs, and modules you used and a description of each
 
 ### Spotify API
+Using the Spotify API users with a premium account will be able to access their playlists to add to their Spotify playlists.
+
+### Venues:
+Venues are the CRUD aspect of the project. You can create, read, update and delete venues.
+
 ### dependencies:
 - bcrypt -to crypt passwords
 - body-parser - send data in post
@@ -74,8 +79,9 @@ https://beta.developer.spotify.com/documentation/web-playback-sdk/reference/#api
 - Clean up Spotify’s sample code for login
 - Allow users to collaborate on playlists
 - When adding a venue it will add the playlist it created
+- Design to match wireframes
 
 
 ## Instructions for downloading the code and running it on localhost
 
-- I used a developer key to demonstrate the playing song, it will not work on heroku.
+- You need a Spotify premium account. I used a developer key to demonstrate the playing song, it will not work on heroku. Running locally, if you want to test it out you can get a key from https://beta.developer.spotify.com/documentation/web-playback-sdk/quick-start/# and click on the GET YOUR WEB PLAYBACK SDK ACCESS TOKEN button. Paste the key in track.ejs line 21 const token = ''   Also you would need to run the schema.sql and seed.sql files for the database setup.
